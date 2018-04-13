@@ -131,6 +131,27 @@ if (unlicensedFiles.length > 0) {
   );
 }
 
+// Modified files should not have bindings in ctor.
+const ctorBindings = createdFiles.filter(filePath => {
+  // Applies to js, css, scss and sh files that are not located in dist or flow-typed folders.
+  if (
+    filePath.match(/\.(js|jsx)$/) &&
+    !filePath.includes('dist/') &&
+    !filePath.includes('flow-typed/')
+  ) {
+    const fileContent = fs.readFileSync(filePath);
+    return !fileContent.includes('.bind(this)');
+  }
+  return false;
+});
+if (ctorBindings.length > 0) {
+  fail(
+    `These modified files contain function bindings: ${ctorBindings.join(
+      ', ',
+    )}\nWe prefer <a target="_blank" rel="noopener noreferrer" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">arrow syntax</a> to be used instead.\n`,
+  );
+}
+
 // Encourage smaller PRs.
 const bigPRThreshold = 8;
 if (fileChanges.length > bigPRThreshold) {

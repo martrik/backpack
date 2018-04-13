@@ -43,6 +43,7 @@
     "upcoming-changes": "node scripts/release-process/upcoming-changes.js",
     "check-bpk-dependencies": "node scripts/npm/check-bpk-dependencies.js",
     "fix-bpk-dependencies": "node scripts/npm/check-bpk-dependencies.js --fix",
+    "replace-binds": "node scripts/npm/replace-binds.js",
     "test": "npm run lint && npm run check-bpk-dependencies && npm run jest && npm run test:native && npm run flow",
     "test:native": "./subshell ./native npm test -- --forceExit",
     "ios": "(cd ./native && npm run ios)",
@@ -186,3 +187,4 @@
     ]
   }
 }
+
